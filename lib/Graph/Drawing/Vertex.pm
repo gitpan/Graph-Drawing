@@ -1,5 +1,10 @@
+# $Id: Vertex.pm,v 1.2 2003/09/28 08:13:12 gene Exp $
+
 package Graph::Drawing::Vertex;
-use vars qw($VERSION); $VERSION = '0.03.1';
+
+use vars qw($VERSION);
+$VERSION = '0.0302';
+
 use strict;
 use Carp;
 

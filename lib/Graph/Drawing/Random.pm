@@ -1,5 +1,10 @@
+# $Id: Random.pm,v 1.2 2003/09/28 08:13:11 gene Exp $
+
 package Graph::Drawing::Random;
-use vars qw($VERSION); $VERSION = '0.06.2';
+
+use vars qw($VERSION);
+$VERSION = '0.0603';
+
 use strict;
 use Carp;
 use base qw(Graph::Drawing::Base);

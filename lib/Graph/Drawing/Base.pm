@@ -1,5 +1,10 @@
+# $Id: Base.pm,v 1.2 2003/09/28 08:13:11 gene Exp $
+
 package Graph::Drawing::Base;
-use vars qw($VERSION); $VERSION = '0.07.2';
+
+use vars qw($VERSION);
+$VERSION = '0.0703';
+
 use strict;
 use Carp;
 use base qw(Graph::Weighted);

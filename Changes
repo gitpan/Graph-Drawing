@@ -88,3 +88,6 @@ Revision history for Graph::Drawing
     - Changed the new(data=>{}) references to new(data=>{weight=>{}})
       to correspond to the updated Graph::Weighted.
     - Updated documentation here and there...
+
+0.0901  Sun Sep 27 2003
+    - $VERSIONS should be real numbers and go on their own lines.

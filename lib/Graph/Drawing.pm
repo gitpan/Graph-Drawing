@@ -1,6 +1,12 @@
+# $Id: Drawing.pm,v 1.2 2003/09/28 08:13:11 gene Exp $
+
 package Graph::Drawing;
+
 # This is the distribution version:
-use vars qw($VERSION); $VERSION = '0.09';
+use vars qw($VERSION);
+$VERSION = '0.0901';
+
+use strict;
 use base qw(Graph::Drawing::Base);
 use Graph::Drawing::Surface;
 use Graph::Drawing::Vertex;

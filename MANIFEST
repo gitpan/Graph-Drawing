@@ -1,7 +1,4 @@
 Changes
-MANIFEST
-Makefile.PL
-README
 eg/image
 eg/tester
 eg/whotalks
@@ -10,6 +7,11 @@ lib/Graph/Drawing/Base.pm
 lib/Graph/Drawing/Random.pm
 lib/Graph/Drawing/Surface.pm
 lib/Graph/Drawing/Vertex.pm
+Makefile.PL
+MANIFEST			This list of files
+MANIFEST.SKIP
+META.yml
+README
 t/base.t
 t/drawing.t
 t/random.t

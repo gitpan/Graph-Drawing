@@ -1,5 +1,10 @@
+# $Id: Surface.pm,v 1.2 2003/09/28 08:13:11 gene Exp $
+
 package Graph::Drawing::Surface;
-use vars qw($VERSION); $VERSION = '0.06.1';
+
+use vars qw($VERSION);
+$VERSION = '0.0602';
+
 use strict;
 use Carp;
 use GD;  # XXX Ugh.  Refactoring, please.
