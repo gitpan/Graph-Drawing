@@ -1,43 +1,51 @@
 package Graph::Drawing::Surface;
-use vars qw($VERSION); $VERSION = '0.05';
+use vars qw($VERSION); $VERSION = '0.06';
 use strict;
 use Carp;
-
 use GD;  # XXX Ugh.  Refactoring, please.
 
-use constant PI    => 2 * atan2 (1, 0);  # The number.
-use constant FLARE => 0.9 * PI;          # The angle of the arrowhead.
+use constant PI        => 2 * atan2 (1, 0);  # The number.
+use constant FLARE     => 0.9 * PI;          # The angle of the arrowhead.
 use constant CIRCLE    => 'circular';
 use constant RECTANGLE => 'rectangular';
 
-sub _debug {
-    print @_, "\n" if shift->{debug};
-}
+sub _debug { print @_, "\n" if shift->{debug} }
 
-sub new {
+sub new {  # {{{
     my $proto = shift;
     my $class = ref $proto || $proto;
     my %args = @_;
     my $self = {
-        debug        => $args{debug}       || 0,
-        surface_size => $args{surface_size},
-        name         => $args{name},
-        format       => $args{format},
-        image        => $args{image}       || undef,
-        colors       => $args{colors}      || {},
-        grade        => $args{grade}       || 10,
-        layout       => $args{layout}      || 'blank',
-        show_grid    => $args{show_grid}   || 0,
-        grid_labels  => $args{grid_labels} || 0,
-        show_axes    => $args{show_axes}   || 0,
-        show_arrows  => defined $args{show_arrows} ? $args{show_arrows} : 1,
+        debug         => $args{debug}        || 0,
+        size          => $args{size}         || 0,
+        name          => $args{name}         || 'surface',
+        type          => $args{type}         || 'GD',  # default
+        format        => $args{format}       || 'png',
+        image         => $args{image}        || undef,
+        colors        => $args{colors}       || {},
+        grade         => $args{grade}        || 10,
+        layout        => $args{layout}       || 'blank',
+        show_grid     => $args{show_grid}    || 0,
+        grid_labels   => $args{grid_labels}  || 0,
+        show_axes     => $args{show_axes}    || 0,
+        show_arrows   => defined $args{show_arrows} ? $args{show_arrows} : 1,
+        vertex_labels => defined $args{vertex_labels} ? $args{vertex_labels} : 1,
+        colors        => {
+            fill   => [ 255, 255, 255 ],  # white
+            border => [   0,   0,   0 ],  # black
+            grid   => [ 210, 210, 210 ],  # light gray
+            label  => [   0,   0,   0 ],  # black
+            axis   => [ 100, 100, 100 ],  # dark gray
+            edge   => [ 100, 100, 100 ],  # dark gray
+            arrow  => [ 128, 128, 128 ],  # medium gray
+        },
     };
     bless $self, $class;
     $self->_init(%args);
     return $self;
-}
+}  # }}}
 
-sub size { return shift->{surface_size} }
+sub size { return shift->{size} }
 
 sub _init {  # {{{
     my $self = shift;
@@ -46,30 +54,29 @@ $self->_debug('entering Surface::_init');
     my $image_provided = $self->{image} ? 1 : 0;
 
     # Allocate the goodness.
-    $self->{image} = GD::Image->new(
-        $self->{surface_size}, $self->{surface_size}
-    ) unless $image_provided;
-$self->_debug('image: ' . ref ($self->{image}));
+    $self->{image} = GD::Image->new($self->{size}, $self->{size})
+        unless $image_provided;
+$self->_debug('image: ' . ref $self->{image});
 
-    # Argh! GD appears to require that you allocate white first.
-    $self->{colors}{fill}          = $self->{image}->colorAllocate( 255, 255, 255 );  #white
-    $self->{colors}{grid}          = $self->{image}->colorAllocate( 210, 210, 210 );  #light grey
-    $self->{colors}{vertex_fill}   = $self->{image}->colorAllocate( 100, 100, 100 );  #dark grey
-    $self->{colors}{vertex_border} = $self->{image}->colorAllocate(   0,   0, 255 );  #blue
-    $self->{colors}{border}        = $self->{image}->colorAllocate(   0,   0,   0 );  #black
+    $self->{colors}{fill}   = $self->{image}->colorAllocate(@{ $self->{colors}{fill} });
+    $self->{colors}{border} = $self->{image}->colorAllocate(@{ $self->{colors}{border} });
+    $self->{colors}{grid}   = $self->{image}->colorAllocate(@{ $self->{colors}{grid} });
+    $self->{colors}{label}  = $self->{image}->colorAllocate(@{ $self->{colors}{label} });
+    $self->{colors}{axis}   = $self->{image}->colorAllocate(@{ $self->{colors}{axis} });
+    $self->{colors}{edge}   = $self->{image}->colorAllocate(@{ $self->{colors}{edge} });
+    $self->{colors}{arrow}  = $self->{image}->colorAllocate(@{ $self->{colors}{arrow} });
 
     # Make the picture a white-transparent background.
     $self->{image}->transparent($self->{colors}{fill})
         unless $image_provided;
 
-    my $grid = $self->{colors}{grid};
-    my ($half, $end) = (
-        $self->{surface_size} / 2, $self->{surface_size} - 1
-    );
+    my ($half, $end) = ($self->{size} / 2, $self->{size} - 1);
 
     if ($self->{layout} eq CIRCLE) {
         if ($self->{show_axes}) {
-            $self->{image}->line($half, 1, $half, $half, $grid);  # r
+            $self->{image}->line(
+                $half, 1, $half, $half, $self->{colors}{axis}
+            );  # r
         }
 
         if ($self->{show_grid}) {
@@ -82,14 +89,14 @@ $self->_debug('image: ' . ref ($self->{image}));
                     $half,  $half,
                     2 * $i, 2 * $i,
                     0,      360,
-                    $grid
+                    $self->{colors}{grid}
                 );
 
                 if ($self->{grid_labels}) {
                     $self->{image}->string(
                         gdTinyFont,
                         $half + 1, $i,
-                        $i, $self->{colors}{vertex_fill}
+                        $i, $self->{colors}{label}
                     );
                 }
             }
@@ -101,15 +108,15 @@ $self->_debug('image: ' . ref ($self->{image}));
 #                my $y = sin $i;
 #                $self->{image}->line(
 #                    $x, $y,
-#                    $self->{surface_size}, $self->{surface_size},
-#                    $grid
+#                    $self->{size}, $self->{size},
+#                    $self->{colors}{grid}
 #                );
 #
 #                if ($self->{grid_labels}) {
 #                    $self->{image}->string(
 #                        gdTinyFont,
 #                        $half + 1, $i,
-#                        $i, $self->{colors}{vertex_fill}
+#                        $i, $self->{colors}{label}
 #                    );
 #                }
 #            }
@@ -123,37 +130,37 @@ $self->_debug('image: ' . ref ($self->{image}));
             $self->{colors}{border}
         );
 
-        # Fill the corners.
-        $self->{image}->fill( 0,    0,    $grid );
-        $self->{image}->fill( 0,    $end, $grid );
-        $self->{image}->fill( $end, 0,    $grid );
-        $self->{image}->fill( $end, $end, $grid );
+        # Fill the corners with the grid color.
+        $self->{image}->fill( 0,    0,    $self->{colors}{grid} );
+        $self->{image}->fill( 0,    $end, $self->{colors}{grid} );
+        $self->{image}->fill( $end, 0,    $self->{colors}{grid} );
+        $self->{image}->fill( $end, $end, $self->{colors}{grid} );
     }
     elsif ($self->{layout} eq RECTANGLE) {
         if ($self->{show_axes}) {
             $self->{image}->line(
                 1, $half,
-                $self->{surface_size}, $half,
-                $grid
+                $self->{size}, $half,
+                $self->{colors}{axis}
             );  # x
             $self->{image}->line(
                 $half, 1,
-                $half, $self->{surface_size},
-                $grid
+                $half, $self->{size},
+                $self->{colors}{axis}
             );  # y
         }
 
         if ($self->{show_grid}) {
-            for (my $i = $self->{grade}; $i < $self->{surface_size}; $i += $self->{grade}) {
+            for (my $i = $self->{grade}; $i < $self->{size}; $i += $self->{grade}) {
                 $self->{image}->line(
                     0, $i,
-                    $self->{surface_size}, $i,
-                    $grid
+                    $self->{size}, $i,
+                    $self->{colors}{grid}
                 );  # x
                 $self->{image}->line(
                     $i, 0,
-                    $i, $self->{surface_size},
-                    $grid
+                    $i, $self->{size},
+                    $self->{colors}{grid}
                 );  # y
 
                 # XXX Oh man, do these ever suck.
@@ -164,12 +171,12 @@ $self->_debug('image: ' . ref ($self->{image}));
                     $self->{image}->stringUp(
                         gdTinyFont,
                         $i, $half + 1,
-                        $i, $self->{colors}{vertex_fill}
+                        $i, $self->{colors}{label}
                     );  # x
                     $self->{image}->string(
                         gdTinyFont,
                         $half + 1, $i,
-                        $i, $self->{colors}{vertex_fill}
+                        $i, $self->{colors}{label}
                     );  # y
                 }
             }
@@ -178,7 +185,7 @@ $self->_debug('image: ' . ref ($self->{image}));
         # Add a frame around the picture.
         $self->{image}->rectangle(
             0, 0,
-            $self->{surface_size} - 1, $self->{surface_size} - 1,
+            $self->{size} - 1, $self->{size} - 1,
             $self->{colors}{border}
         );
     }
@@ -186,7 +193,7 @@ $self->_debug('image: ' . ref ($self->{image}));
 $self->_debug('exiting Surface::_init');
 }  # }}}
 
-sub write_image {
+sub write_image {  # {{{
     my ($self, $filename) = @_;
 
     $filename = "$self->{name}.$self->{format}"
@@ -204,54 +211,67 @@ sub write_image {
     close F;
 
     return $filename;
-}
+}  # }}}
 
-sub draw_vertex {
+sub draw_vertex {  # {{{
     my ($self, $vertex) = @_;
-
 $self->_debug(
     sprintf "%s (%d): [%.2f, %.2f] size: %.2f",
         $vertex->name, $vertex->weight,
         $vertex->x, $vertex->y, $vertex->size
 );
 
+    # Allocate the colors if they haven't been, already.
+    $vertex->{colors}{fill} = $self->{image}->colorAllocate(@{ $vertex->{colors}{fill} })
+        if ref $vertex->{colors}{fill} eq 'ARRAY';
+    $vertex->{colors}{border} = $self->{image}->colorAllocate(@{ $vertex->{colors}{border} })
+        if ref $vertex->{colors}{border} eq 'ARRAY';
+    $vertex->{colors}{label} = $self->{image}->colorAllocate(@{ $vertex->{colors}{label} })
+        if ref $vertex->{colors}{label} eq 'ARRAY';
+
     # circle border
     $self->{image}->arc(
         $vertex->x, $vertex->y,
         $vertex->size, $vertex->size,
         0, 360,
-        $self->{colors}{vertex_border}
+        $vertex->{colors}{border}
     );
     # circle fill
     $self->{image}->fillToBorder(
         $vertex->x, $vertex->y,
-        $self->{colors}{vertex_border},
-        $self->{colors}{vertex_fill}
+        $vertex->{colors}{border},
+        $vertex->{colors}{fill}
     );
     # label
-    $self->{image}->string(
-        gdTinyFont,
-        ($vertex->x + $vertex->size),
-        ($vertex->y + $vertex->size / 2),
-        $vertex->name .':'. $vertex->weight,
-        $self->{colors}{border}
-    );
-}
+    if ($vertex->{show_label}) {
+        $self->{image}->string(
+            gdTinyFont,
+            $vertex->x + $vertex->size,
+            $vertex->y + $vertex->size / 2,
+            $vertex->name .':'. $vertex->weight,
+            $vertex->{colors}{label}
+        );
+    }
+}  # }}}
 
-sub draw_edge {
+sub draw_edge {  # {{{
     my ($self, $vertex1, $vertex2) = @_;
+
+    $self->draw_arrowhead($vertex1, $vertex2)
+        if $self->{show_arrows};
+
+    # Allocate the edge color if it hasn't been, already.
+    $self->{colors}{edge} = $self->{image}->colorAllocate(@{ $self->{colors}{edge} })
+        if ref $self->{colors}{edge} eq 'ARRAY';
 
     $self->{image}->line(
         $vertex1->x, $vertex1->y,
         $vertex2->x, $vertex2->y,
-        $self->{colors}{vertex_fill}
+        $self->{colors}{edge}
     );
+}  # }}}
 
-    $self->draw_arrowhead($vertex1, $vertex2)
-        if $self->{show_arrows};
-}
-
-sub draw_arrowhead {
+sub draw_arrowhead {  # {{{
     my ($self, $tail, $head) = @_;
 
     # Calculate the size and distance of the vector.
@@ -278,8 +298,12 @@ sub draw_arrowhead {
         $poly->addPt($dx, $dy);
     }
 
-    $self->{image}->filledPolygon($poly, $self->{colors}{vertex_fill});
-}
+    # Allocate the arrow color if it hasn't been, already.
+    $self->{colors}{arrow} = $self->{image}->colorAllocate(@{ $self->{colors}{arrow} })
+        if ref $self->{colors}{arrow} eq 'ARRAY';
+
+    $self->{image}->filledPolygon($poly, $self->{colors}{arrow});
+}  # }}}
 
 1;
 
@@ -347,9 +371,13 @@ the C<name> attribute is provided.
 Specify the graphics module to use.  Currently, this is only C<GD>.
 (C<Imager> is next!)
 
-=item surface_size $PIXELS
+=item size $PIXELS
 
 The size of the (square) surface, in pixels.
+
+If this is not set in the object construction, and there is a dataset,
+half the graph max weight will be used, otherwise zero (no visible 
+image) is set as the default.
 
 =item grade $PIXELS
 
@@ -378,11 +406,15 @@ Show the chart axes.  Defaults to 0.
 
 Show edge arrows.  Defaults to 1.
 
+=item vertex_labels 0 | 1
+
+Show vertex labels.  Defaults to 1.
+
 =back
 
 =item size
 
-Return the C<surface_size> attribute.
+Return the C<size> attribute.
 
 =item write_image [$STRING]
 

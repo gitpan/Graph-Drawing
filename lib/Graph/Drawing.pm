@@ -1,6 +1,6 @@
 package Graph::Drawing;
 # This is the distribution version:
-use vars qw($VERSION); $VERSION = '0.06';
+use vars qw($VERSION); $VERSION = '0.07';
 use base qw(Graph::Drawing::Base);
 use Graph::Drawing::Surface;
 use Graph::Drawing::Vertex;

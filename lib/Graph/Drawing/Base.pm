@@ -1,5 +1,5 @@
 package Graph::Drawing::Base;
-use vars qw($VERSION); $VERSION = '0.05';
+use vars qw($VERSION); $VERSION = '0.06';
 use strict;
 use Carp;
 use base qw(Graph::Weighted);
@@ -24,17 +24,19 @@ $self->_debug('entering Drawing::_init');
 
     # Set the surface width to twice the graph's maximum weight if 
     # a dataset is not specified.
-    $args{surface_size} ||= $self->data && keys %{ $self->data }
-        ? 2 * $self->max_weight : 0;
+    $args{surface_size} = 2 * $self->max_weight
+        if !$args{surface_size} && $self->data && keys %{ $self->data };
 
+    # Get a new surface object.
     $self->{surface} = $self->surface(%args);
 
     # Add a new vertex to the drawing for each of the graph vertices.
 $self->_debug('add new vertices');
     $self->vertex(
-        debug       => $args{debug},
-        name        => $_,
-        vertex_size => $args{vertex_size},
+        debug      => $args{debug},
+        name       => $_,
+        show_label => $args{vertex_labels},
+        size       => $args{vertex_size},
     ) for $self->vertices;
 
     # Plot the vertices and edges.
@@ -51,7 +53,14 @@ $self->_debug('exiting Drawing::_init');
 sub surface {
     my $self = shift;
     if (@_) {
-        return Graph::Drawing::Surface->new(@_);
+        my %args = @_;
+
+        # If we are given a surface_size key, turn it into 'size'.
+        if ($args{surface_size}) {
+            $args{size} = $args{surface_size};
+            delete $args{surface_size};
+        }
+        return Graph::Drawing::Surface->new(%args);
     }
     else {
         return $self->{surface};

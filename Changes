@@ -59,10 +59,18 @@ Revision history for Graph::Drawing
       distribution...
 
 0.06  Thu Jul 10 2003
-    - WHEW. search.cpan.org and the CPAN shell use upload dates and
+    - WHEW.  search.cpan.org and the CPAN shell use upload dates and
       not version numbers to determine what is "latest" - as it
       should be.  Yay!
     - Fixed documentation in the Drawing, Base, Random, and Surface
       modules.
     - Fixed the use base line in Random to actually find the parent's
       new().  Wtf didn't the previous way work on older perls?
+
+0.07  
+    - Set a couple surface defaults that were just undef, previously.
+    - Added display attributes to the vertex object.
+    - Fixed up eg/whotalks to illustrate how to redraw a newly
+      colored vertex.
+    - Changed the vertex_size and surface_size in the object, to just 
+      'size', as it should be.

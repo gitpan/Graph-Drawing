@@ -4,18 +4,19 @@ use Graph::Drawing::Random;
 
 my $g = Graph::Drawing::Random->new(
 #    debug => 1,  # available to inherited subclasses and instantiated children.
-    type         => 'GD',
-    format       => 'gif',
-    name         => $0,
-    surface_size => 200,  # half the max weight if not specified.
-    grade        => 10,
-    layout       => 'circular',#'rectangular'
-    show_grid    => 1,
-    grid_labels  => 1,
-    show_axes    => 1,
-#    show_arrows  => 0,
-    vertex_size  => 6,
-    data         => {
+    type          => 'GD',
+    format        => 'gif',
+    name          => $0,
+    surface_size  => 200,  # half the max weight if not specified.
+    grade         => 10,
+    layout        => 'circular',#'rectangular'
+    show_grid     => 1,
+#    grid_labels   => 1,
+#    show_axes     => 1,
+    vertex_size   => 6,
+#    show_arrows   => 0,
+#    vertex_labels => 0,
+    data          => {
         john   => { paul => 30, },
         paul   => { john => 30, george => 20, ringo => 10, },
         george => { john => 10, paul   => 10, ringo => 10, },
@@ -24,4 +25,14 @@ my $g = Graph::Drawing::Random->new(
     }
 );
 
+# Redraw a re-colored vertex and edge.
+my $paul = $g->vertex('paul');
+$g->surface->{colors}{edge}  = [ 0, 100, 0 ];
+$g->surface->{colors}{arrow} = [ 0, 200, 0 ];
+$g->surface->draw_edge($paul, $g->vertex('george'));
+$paul->{colors}{border} = [ 255,   0, 0 ];
+$paul->{colors}{fill}   = [ 255, 255, 0 ];
+$g->surface->draw_vertex($paul);
+
+# Show 'em what they've won, Don pardo!
 $g->surface->write_image;

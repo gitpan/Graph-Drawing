@@ -1,5 +1,5 @@
 package Graph::Drawing::Random;
-use vars qw($VERSION); $VERSION = '0.04';
+use vars qw($VERSION); $VERSION = '0.05';
 use strict;
 use Carp;
 use base qw(Graph::Drawing::Base);
@@ -39,20 +39,37 @@ polar coordinate graph drawing.
   use Graph::Drawing::Random;
 
   my $g = Graph::Drawing::Random->new(
-      type         => 'GD',
-      format       => 'png',
-      name         => 'The_Beatles',
-      surface_size => 300,
-      grade        => 20,
-      vertex_size  => 6,
+      type          => 'GD',
+      format        => 'png',
+      name          => 'The_Beatles',
+      surface_size  => 300,  # half the max weight if not specified.
+      grade         => 20,
+      layout        => 'circular',
+      show_grid     => 1,
+      grid_labels   => 1,
+      show_axes     => 1,
+      show_arrows   => 1,
+      vertex_labels => 1,
+      vertex_size   => 6,
       data => {
           john   => { paul => 30, },
           paul   => { john => 30, george => 20, ringo => 10, },
           george => { john => 10, paul   => 10, ringo => 10, },
           ringo  => {},
+          gene   => {},
       }
   );
 
+  # Recolor and then redraw a vertex and edge.
+  my $paul = $g->vertex('paul');
+  $g->surface->{colors}{edge}  = [ 0, 100, 0 ];
+  $g->surface->{colors}{arrow} = [ 0, 200, 0 ];
+  $g->surface->draw_edge($paul, $g->vertex('george'));
+  $paul->{colors}{border} = [ 255,   0, 0 ];
+  $paul->{colors}{fill}   = [ 255, 255, 0 ];
+  $g->surface->draw_vertex($paul);
+
+  # Show 'em what they've won, Don pardo!
   $g->surface->write_image;
 
 =head1 DESCRIPTION

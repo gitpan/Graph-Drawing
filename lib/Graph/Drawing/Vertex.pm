@@ -1,27 +1,31 @@
 package Graph::Drawing::Vertex;
-use vars qw($VERSION); $VERSION = '0.02';
+use vars qw($VERSION); $VERSION = '0.03';
 use strict;
 use Carp;
 
-sub _debug {
-    print @_, "\n" if shift->{debug};
-}
+sub _debug { print @_, "\n" if shift->{debug} }
 
-sub new {
+sub new {  # {{{
     my $class = shift;
     my $proto = ref ($class) || $class;
     my %args = @_;
     my $self = {
-        debug       => $args{debug}       || 0,
-        name        => $args{name}        || '',
-        vertex_size => $args{vertex_size} || 0,
-        weight      => $args{weight}      || 0,
-        graph       => $args{graph}       || undef,
+        debug      => $args{debug}  || 0,
+        name       => $args{name}   || '',
+        size       => $args{size}   || 0,
+        weight     => $args{weight} || 0,
+        graph      => $args{graph}  || undef,
+        show_label => defined $args{show_label} ? $args{show_label} : 1,
+        colors     => {
+            fill   => [ 100, 100, 100 ],  # dark gray
+            border => [   0,   0, 255 ],  # blue
+            label  => [   0,   0,   0 ],  # black
+        },
     };
     bless $self, $class;
     $self->_init(%args) if $args{graph};
     return $self;
-}
+}  # }}}
 
 sub _init {
     my $self = shift;
@@ -41,8 +45,8 @@ sub name {
 
 sub size {
     my $self = shift;
-    $self->{vertex_size} = shift if @_;
-    return $self->{vertex_size};
+    $self->{size} = shift if @_;
+    return $self->{size};
 }
 
 sub weight {
@@ -90,12 +94,17 @@ A vertex object.
 
 =head1 PUBLIC METHODS
 
-These methods are all called automatically by the other 
-C<Graph::Drawing> modules, and should not need to be called explicitly.
-
 =over 4
 
 =item new %ARGUMENTS
+
+This method is called automatically by the C<Graph::Drawing::Base> 
+module, and does not need to be called explicitly.
+
+These attributes (except for C<name>) are set with the same value, for 
+all vertices, in the C<Graph::Drawing::Surface::_init> routine.  If 
+desired, any attribute can be set, after the surface object creation, 
+of course.
 
 =over 4
 
@@ -107,7 +116,11 @@ unique among the rest of the vertices.
 This object attribute is set automatically, based on the keys of the
 data attribute.  It should not be set explicitly.
 
-=item vertex_size $PIXELS
+=item show_label 0 | 1
+
+Display the name and weight beside the plotted vertex.  Defaults to 1.
+
+=item size $PIXELS
 
 The size of the vertex diameter, in pixels.
 
