@@ -1,6 +1,6 @@
 package Graph::Drawing::Surface;
 use strict;
-use vars qw($VERSION); $VERSION = '0.01.1';
+use vars qw($VERSION); $VERSION = '0.02';
 use Carp;
 
 use GD;  # XXX Ugh.  Refactoring, please.
@@ -46,7 +46,7 @@ sub _init {
     $self->colors->{vertex_border} = $self->image->colorAllocate(   0,   0, 255 );  #blue
     $self->colors->{border}        = $self->image->colorAllocate(   0,   0,   0 );  #black
 
-    # Make the picture a white-transparent, interlaced background.
+    # Make the picture a white-transparent background.
     $self->{image}->transparent($self->{colors}{fill});
 #    $self->{image}->interlaced('true');
 
@@ -104,6 +104,12 @@ sub colors {
     my $self = shift;
     $self->{colors} = shift if @_;
     return $self->{colors};
+}
+
+sub size {
+    my $self = shift;
+    $self->{size} = shift if @_;
+    return $self->{size};
 }
 
 sub pic_output {
@@ -211,6 +217,11 @@ to be called directly.
 
 This module is a two dimensional graph topology landscape used by the
 parent to plot vertices, edges, axes and labels.
+
+A number of attributes can be specified in the arguments provided in 
+the call to the C<new> method, to control the format and dimensions 
+of the surface.  Please see the documentation in the parent module,
+(C<Graph::Drawing>) for a description of these options.
 
 =head1 ABSTRACT
 

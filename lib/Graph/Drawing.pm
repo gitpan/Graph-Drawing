@@ -1,6 +1,6 @@
 package Graph::Drawing;
 use strict;
-use vars qw($VERSION); $VERSION = '0.01.2';
+use vars qw($VERSION); $VERSION = '0.2';
 use Carp;
 use base qw(Graph::Weighted);
 
@@ -8,7 +8,7 @@ use Graph::Drawing::Surface;
 use Graph::Drawing::Vertex;
 
 # Not to be called directly.  Inherit from a subclass like 
-# G::D::Random, or something.
+# G::D::Random.
 sub new {
     my $class = shift;
     my $proto = ref $class || $class;
@@ -20,23 +20,29 @@ sub new {
 
 sub _init {
     my ($self, %args) = @_;
+$self->_debug('entering Graph::Drawing::_init');
 
-    # Set the surface width to twice the graph's maximum weight.
+$self->_debug('create a surface');
+    # Set the surface width to twice the graph's maximum weight if a
+    # size is not specified.
     $args{surface_size} ||= 2 * $self->max_weight;
-
     $self->{surface} = $self->new_surface(%args)
         if $args{surface_name} && $args{surface_size};
 
     # Add a new vertex to the drawing for each of the graph vertices.
+$self->_debug('add new vertices');
     $self->new_vertex(name => $_, size => $args{vertex_size})
         for $self->vertices;
 
     # Plot the vertices and edges.
+$self->_debug('plot the vertices and edges');
     for my $v ($self->vertices) {
         $self->{surface}->draw_vertex($self->vertex($v));
         $self->{surface}->draw_edge($self->vertex($v), $self->vertex($_))
             for $self->successors($v);
     }
+
+$self->_debug('exiting Graph::Drawing::_init');
 }
 
 sub new_surface {
@@ -130,15 +136,16 @@ Create and return a new surface object.
 
 =item name $STRING
 
-The file name (without the extension like "png") to use when saving 
-the image.  That is, this attribute is prepended to the C<format>
-attributeto make the image filename.
+The file name (without the extension like ".png") to use when saving 
+the image.  This attribute is prepended to the C<format> attribute to 
+make the image filename.
 
 =item format $STRING
 
-The graphic file format to save as.  Currently, this is only C<PNG>.
+The graphic file format to use when saving.  Currently, this is only 
+the C<PNG> format.
 
-This object attribute is appened (automatically) to the C<name> 
+This object attribute is appended (automatically) to the C<name> 
 attribute, as the "file extension", to make the image filename.
 
 =item type $MODULE
@@ -146,7 +153,7 @@ attribute, as the "file extension", to make the image filename.
 Specify the graphics module to use.  Currently, this is only C<GD>.
 (C<Imager> is next!)
 
-=item size $WIDTH
+=item surface_size $PIXELS
 
 The size of the (square) surface, in pixels.
 
@@ -167,9 +174,9 @@ Create and return a new vertex object.
 The name to use to identify the vertex.  Currently, this must be
 unique among the rest of the vertices.
 
-=item size $DIAMETER
+=item vertex_size $PIXELS
 
-The size of the vertex diameter.
+The size of the vertex diameter, in pixels.
 
 =back
 

@@ -1,13 +1,16 @@
 package Graph::Drawing::Random;
 use strict;
-use vars qw($VERSION); $VERSION = '0.01.1';
+use vars qw($VERSION); $VERSION = '0.02';
 use Carp;
 use base qw(Graph::Drawing);
 
 sub get_coordinate {
     my ($self, $vertex) = @_;
+$self->_debug("entering get_coordinate with $vertex");
+    croak "Can't compute the coordinate of an undefined vertex."
+        unless $vertex;
 
-    my $max    = $self->max_weight;
+    my $max    = $self->surface->size / 2;
     my $weight = $max - $vertex->weight;
     my $angle  = rand 360;
 
@@ -19,6 +22,7 @@ sub get_coordinate {
 #    warn sprintf "%s: w=%d, m=%d, a=%.2f => [%.2f, %.2f]\n",
 #        $v, $weight, $max, $angle, $x, $y;
 
+$self->_debug('exit get_coordinate');
     return $x + $max, $y + $max, $z + $max;
 }
 
@@ -35,9 +39,11 @@ graph drawing
   use Graph::Drawing::Random;
 
   my $g = Graph::Drawing::Random->new(
+  #    debug => 1,
       type         => 'GD',
       format       => 'png',
       surface_name => 'foo',
+  #    surface_size => 300,
       vertex_size  => 6,
       data => {
           john   => { paul => 30, },

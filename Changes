@@ -9,3 +9,13 @@ Revision history for Graph::Drawing
 
 0.01.2  Fri Jul 4
     - Ack!  Forgot Graph/ under lib/.  Oops!
+
+0.02 Fri Jul 4
+    - Added _debug calls here and there.
+    - Added the size attribute accessor to Surface.pm.
+    - Changed the G::D::Random::get_coordinate method to use the
+      surface size for the max.
+    - Added a line to make it obvious that you can specify the surface
+      size directly, in the object creation, in the Random.pm SYNOPSIS
+      and eg/whotalks.
+    - Fixed and enhanced the Drawing.pm and Surface.pm documentation.
