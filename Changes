@@ -83,3 +83,8 @@ Revision history for Graph::Drawing
     - Removed the unused (at this time) z coordinate from Random.pm.
     - Updated and enhanced the documentation all over.
     - Excised the unnecessary =head1 ABSTRACT sections.
+
+0.09  Thu Jul 31 2003
+    - Changed the new(data=>{}) references to new(data=>{weight=>{}})
+      to correspond to the updated Graph::Weighted.
+    - Updated documentation here and there...

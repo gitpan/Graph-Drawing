@@ -13,13 +13,14 @@ for my $i ('a' .. 'z') {
 my $g = Graph::Drawing::Random->new(
 #    debug => 1,  # This is always available to subclasses.
     type         => 'GD',
-    format       => 'png',
+    name         => $0,
+    format       => 'gif',
     surface_size => 800,
     layout       => 'rectangular',#'circular',
     show_grid    => 1,
     grade        => 20,
     vertex_size  => 6,
-    data         => $data,
+    data => { weight => $data },
 );
 
-$g->surface->write_image("$0.png");
+$g->surface->write_image;

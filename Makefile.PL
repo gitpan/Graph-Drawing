@@ -1,4 +1,3 @@
-use 5.005;
 use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME         => 'Graph::Drawing',
@@ -6,7 +5,7 @@ WriteMakefile(
     PREREQ_PM    => {
         'Carp' => 0,
         'Test::More' => 0,
-        'Graph::Weighted' => 0,
+        'Graph::Weighted' => '0.10',
         'GD' => 0,  # ugh
     },
     ($] >= 5.005

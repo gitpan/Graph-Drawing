@@ -1,5 +1,5 @@
 package Graph::Drawing::Random;
-use vars qw($VERSION); $VERSION = '0.06.1';
+use vars qw($VERSION); $VERSION = '0.06.2';
 use strict;
 use Carp;
 use base qw(Graph::Drawing::Base);
@@ -53,12 +53,14 @@ Graph::Drawing::Random - Concentric ring constrained, random angle, polar coordi
       vertex_labels => 1,
       vertex_size   => 6,
       data => {
-          john   => { paul => 30, },
-          paul   => { john => 30, george => 20, ringo => 10, },
-          george => { john => 10, paul   => 10, ringo => 10, },
-          ringo  => {},
-          gene   => {},
-      }
+          weight => {
+              john   => { paul => 30, },
+              paul   => { john => 30, george => 20, ringo => 10, },
+              george => { john => 10, paul   => 10, ringo => 10, },
+              ringo  => {},
+              gene   => {},
+          },
+      },
   );
 
   # Recolor and then redraw a vertex and edge.
@@ -85,7 +87,8 @@ graph.
 =item new %ARGUMENTS
 
 The arguments that must be provided are described in the 
-C<Graph::Drawing::Surface> and C<Graph::Drawing::Vertex> documentation.
+C<Graph::Weighted>, C<Graph::Drawing::Surface> and 
+C<Graph::Drawing::Vertex> documentation.
 
 With the following exceptions:
 
@@ -127,6 +130,8 @@ This method takes a C<Graph::Drawing::Vertex> object as an argument.
 
 =head1 SEE ALSO
 
+L<Graph::Weighted>
+
 L<Graph::Drawing>
 
 L<Graph::Drawing::Base>
@@ -138,9 +143,6 @@ L<Graph::Drawing::Surface>
 =head1 TO DO
 
 Make this module more flexible to justify such a generic namespace.
-
-If you would like to contribute to this project, please contact me
-and I will rejoice.
 
 =head1 AUTHOR
 

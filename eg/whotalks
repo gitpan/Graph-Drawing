@@ -16,12 +16,14 @@ my $g = Graph::Drawing::Random->new(
     vertex_size   => 6,
 #    show_arrows   => 0,
 #    vertex_labels => 0,
-    data          => {
-        john   => { paul => 30, },
-        paul   => { john => 30, george => 20, ringo => 10, },
-        george => { john => 10, paul   => 10, ringo => 10, },
-        ringo  => {},
-        gene   => {},
+    data => {
+        weight => {
+            john   => { paul => 30, },
+            paul   => { john => 30, george => 20, ringo => 10, },
+            george => { john => 10, paul   => 10, ringo => 10, },
+            ringo  => {},
+            gene   => {},
+        },
     }
 );
 

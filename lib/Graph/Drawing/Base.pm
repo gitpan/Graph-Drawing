@@ -1,5 +1,5 @@
 package Graph::Drawing::Base;
-use vars qw($VERSION); $VERSION = '0.07.1';
+use vars qw($VERSION); $VERSION = '0.07.2';
 use strict;
 use Carp;
 use base qw(Graph::Weighted);
@@ -178,9 +178,6 @@ L<Graph::Drawing::Random>
 =head1 TO DO
 
 A little less than everything.
-
-If you would like to contribute to this project, please contact me
-and I will rejoice.
 
 =head1 AUTHOR
 
