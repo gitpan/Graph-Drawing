@@ -1,5 +1,5 @@
 package Graph::Drawing::Surface;
-use vars qw($VERSION); $VERSION = '0.02';
+use vars qw($VERSION); $VERSION = '0.03';
 use strict;
 use Carp;
 
@@ -107,10 +107,11 @@ sub size {
     return $self->{size};
 }
 
-sub draw {
-    my $self = shift;
+sub write_image {
+    my ($self, $filename) = @_;
 
-    my $filename = "$self->{name}.$self->{format}";
+    $filename ||= "$self->{name}.$self->{format}";
+    croak 'Filename not defined.' unless $filename;
 
     # Make sure we are writing to a binary stream first!
     binmode STDOUT;
@@ -201,12 +202,12 @@ __END__
 
 =head1 NAME
 
-Graph::Drawing::Surface - 2D Graph topology landscape
+Graph::Drawing::Surface - 2D graph topology landscape
 
 =head1 SYNOPSIS
 
-This module is called automatically by the parent and does not need 
-to be called directly.
+This module does not need to be invoked explicitly, but rather, is 
+called automatically by the parent.
 
 =head1 DESCRIPTION
 
@@ -220,17 +221,17 @@ of the surface.  Please see the documentation in the parent module,
 
 =head1 ABSTRACT
 
-2D Graph topology landscape used by the C<Graph::Drawing> module.
+2D graph topology landscape used by the C<Graph::Drawing> module.
 
 =head1 PUBLIC METHODS
 
 =over 4
 
-=item draw
+=item write_image [$STRING]
 
 Print the (binary) contents of the object's image attribute to a file,
-who's name and format are defined by the concatination of the name 
-and format attributes.
+who's name, if not provided as an argument, is defined by the 
+concatination of the object's name and format attributes.
 
 =back
 

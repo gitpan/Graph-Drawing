@@ -5,9 +5,11 @@ README
 eg/whotalks
 eg/whotalks.png
 lib/Graph/Drawing.pm
+lib/Graph/Drawing/Base.pm
 lib/Graph/Drawing/Random.pm
 lib/Graph/Drawing/Surface.pm
 lib/Graph/Drawing/Vertex.pm
+t/base.t
 t/drawing.t
 t/random.t
 t/surface.t

@@ -2,20 +2,29 @@
 use strict;
 use Graph::Drawing::Random;
 
+my $data;
+for my $i ('a' .. 'z') {
+    $data->{$i} = {
+        map { $_ => int rand (9) + 1 }
+            grep { $_ ne $i } 'a' .. 'z' };
+}
+
 my $g = Graph::Drawing::Random->new(
 #    debug => 1,  # This is always available to subclasses.
     type         => 'GD',
     format       => 'png',
-    surface_name => $0,
-    surface_size => 300,  # Defaults to half the max weight if not specified.
+#    surface_name => $0,
+    surface_size => 800,  # Defaults to half the max weight if not specified.
     grade        => 20,
     vertex_size  => 6,
-    data => {
-        john   => { paul => 30, },
-        paul   => { john => 30, george => 20, ringo => 10, },
-        george => { john => 10, paul   => 10, ringo => 10, },
-        ringo  => {},
-    }
+    data         => $data,
+#    data         => {
+#        john   => { paul => 30, },
+#        paul   => { john => 30, george => 20, ringo => 10, },
+#        george => { john => 10, paul   => 10, ringo => 10, },
+#        ringo  => {},
+#        gene   => {},
+#    }
 );
 
-$g->surface->draw;
+$g->surface->write_image("$0.png");

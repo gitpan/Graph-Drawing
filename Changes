@@ -28,3 +28,13 @@ Revision history for Graph::Drawing
     - Made the FACTOR constant in Surface.pm an object attribute 
       called "grade".
     - Updated the Base.pm documentation accordingly.
+
+0.04  
+    - Ack!  What was I thinking?  Renamed the "draw" method to
+      "write_image" in Surface.pm.
+    - Made the surface_name attribute optional and allowed
+      write_image to accept a filename argument.
+    - Holy crap.  I forgot to include Base.pm in the $#@!ing MANIFEST.
+    - Made the Surface::_init method check $self->data before calling
+      the max_weight method.
+    - Made sure all the feeble tests ran correctly...

@@ -1,5 +1,5 @@
 package Graph::Drawing::Random;
-use vars qw($VERSION); $VERSION = '0.02.1';
+use vars qw($VERSION); $VERSION = '0.02.2';
 use strict;
 use Carp;
 use base qw(Graph::Drawing);
@@ -44,6 +44,7 @@ polar coordinate system graph drawing.
       format       => 'png',
       surface_name => 'foo',
   #    surface_size => 300,  # Can be undefined in the new() call.
+  #    grade        => 20,
       vertex_size  => 6,
       data => {
           john   => { paul => 30, },
@@ -53,7 +54,7 @@ polar coordinate system graph drawing.
       }
   );
 
-  $g->surface->draw;
+  $g->surface->write_image;
 
 =head1 DESCRIPTION
 
