@@ -1,6 +1,6 @@
 package Graph::Drawing;
 # This is the distribution version:
-use vars qw($VERSION); $VERSION = '0.07';
+use vars qw($VERSION); $VERSION = '0.08';
 use base qw(Graph::Drawing::Base);
 use Graph::Drawing::Surface;
 use Graph::Drawing::Vertex;
@@ -14,15 +14,13 @@ Graph::Drawing - Graph drawing functionality
 
 =head1 SYNOPSIS
 
-  #use Graph::Drawing::ForceDirected;       # Not implemented.
-  #use Graph::Drawing::SimulatedAnnealing;  # Not implemented.
-  #use Graph::Drawing::Magnetic;            # Not implemented.
-  #use Graph::Drawing::Heirarchical;        # Not implemented.
-  #use Graph::Drawing::Orthogonal;          # Not implemented.
+  use Graph::Drawing::ForceDirected;       # Not implemented.
+  use Graph::Drawing::SimulatedAnnealing;  # Not implemented.
+  use Graph::Drawing::Magnetic;            # Not implemented.
+  use Graph::Drawing::Heirarchical;        # Not implemented.
+  use Graph::Drawing::Orthogonal;          # Not implemented.
 
   use Graph::Drawing::Random;
-
-  # ...
 
 =head1 DESCRIPTION
 
@@ -38,15 +36,7 @@ Please see the <Graph::Drawing::Base> module for basic method
 descriptions, and the individual C<Graph::Drawing> subclass 
 C<SYNOPSIS> sections for usage descriptions.
 
-Please see the distribution eg/ directory for working examples.
-
-* I accidentally uploaded a version typo.  Instead of the correct,
-'0.04', I did '0.4'.  When you see this in my archives, do not be 
-fooled...  Sorry.  : \
-
-=head1 ABSTRACT
-
-Graph drawing functionality.
+Also, see the distribution eg/ directory for working examples.
 
 =head1 SEE ALSO
 
@@ -76,6 +66,10 @@ This entire distribution is currently under heavy development.
 Nearly every method, argument and bit of documentation currently have 
 (possible annoying) restrictions, caveats and deficiencies, that will 
 change as development progresses.
+
+* Ack!  So I was accidentally uploading version typos.  For example, 
+instead of the correct, '0.04', I did '0.4' for versions 0.02, 0.03 
+and 0.04.  When you see this in my archives, do not be fooled.
 
 =head1 AUTHOR
 

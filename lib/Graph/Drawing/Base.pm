@@ -1,5 +1,5 @@
 package Graph::Drawing::Base;
-use vars qw($VERSION); $VERSION = '0.06';
+use vars qw($VERSION); $VERSION = '0.07.1';
 use strict;
 use Carp;
 use base qw(Graph::Weighted);
@@ -97,12 +97,6 @@ Graph::Drawing::Base - Base class for graph drawing functionality
 
 =head1 SYNOPSIS
 
-  #use Graph::Drawing::ForceDirected;       # Not implemented.
-  #use Graph::Drawing::SimulatedAnnealing;  # Not implemented.
-  #use Graph::Drawing::Magnetic;            # Not implemented.
-  #use Graph::Drawing::Heirarchical;        # Not implemented.
-  #use Graph::Drawing::Orthogonal;          # Not implemented.
-
   use Graph::Drawing::Random;
 
   $g = Graph::Drawing::Random->new(%args);
@@ -120,13 +114,9 @@ available in those modules, is also available to a C<Graph::Drawing>
 object.
 
 Please see the C<Graph::Drawing> subclass C<SYNOPSIS> sections for 
-usage descriptions.
+complete usage descriptions.
 
-Please see the distribution eg/ directory for working examples.
-
-=head1 ABSTRACT
-
-Base class for graph drawing functionality.
+Also see the distribution eg/ directory for working examples.
 
 =head1 PUBLIC METHODS
 
@@ -142,6 +132,9 @@ given, the object's surface is returned.
 
 The list of arguments for a new surface object are detailed in the 
 C<Graph::Drawing::Surface> documentation.
+
+Note that if one of the arguments is named C<surface_size>, it will 
+be renamed to C<size>.
 
 =item vertex $NAME | %ARGUMENTS
 

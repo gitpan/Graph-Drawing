@@ -1,5 +1,5 @@
 package Graph::Drawing::Vertex;
-use vars qw($VERSION); $VERSION = '0.03';
+use vars qw($VERSION); $VERSION = '0.03.1';
 use strict;
 use Carp;
 
@@ -76,7 +76,7 @@ __END__
 
 =head1 NAME
 
-Graph::Drawing::Vertex - A vertex object
+Graph::Drawing::Vertex - A weighted vertex object with display attributes
 
 =head1 SYNOPSIS
 
@@ -87,10 +87,6 @@ do not need to be called explicitly.
 
 This module represents a vertex object that is used by other 
 C<Graph::Drawing> modules.
-
-=head1 ABSTRACT
-
-A vertex object.
 
 =head1 PUBLIC METHODS
 

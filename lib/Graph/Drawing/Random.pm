@@ -1,5 +1,5 @@
 package Graph::Drawing::Random;
-use vars qw($VERSION); $VERSION = '0.05';
+use vars qw($VERSION); $VERSION = '0.06.1';
 use strict;
 use Carp;
 use base qw(Graph::Drawing::Base);
@@ -10,20 +10,22 @@ $self->_debug("entering get_coordinate with $vertex");
     croak "Can't compute the coordinate of an undefined vertex."
         unless $vertex;
 
-    my $max    = $self->surface->size / 2;
+    # Set the max at the middle of the surface image.
+    my $max = $self->surface->size / 2;
+    # Zero at the graph edge.
     my $weight = $max - $vertex->weight;
-    my $angle  = rand 360;
+    # Get the random angle.
+    my $theta = rand 360;
 
     # Apply the polar transformation. 
-    my $x = $weight * cos $angle;
-    my $y = $weight * sin $angle;
-    my $z = 0;
+    my $x = $weight * cos $theta;
+    my $y = $weight * sin $theta;
 
-#    warn sprintf "%s: w=%d, m=%d, a=%.2f => [%.2f, %.2f, %.2f]\n",
-#        $v, $weight, $max, $angle, $x, $y, $z;
+#    warn sprintf "%s: w=%d, a=[%.2f, %.2f], m=%d => [%.2f, %.2f]\n",
+#        $v->name, $weight, $theta, $max, $x, $y;
 
 $self->_debug('exit get_coordinate');
-    return $x + $max, $y + $max, $z + $max;
+    return $x + $max, $y + $max;
 }
 
 1;
@@ -31,8 +33,7 @@ __END__
 
 =head1 NAME
 
-Graph::Drawing::Random - Concentric ring constrained, random angle, 
-polar coordinate graph drawing.
+Graph::Drawing::Random - Concentric ring constrained, random angle, polar coordinate graph drawing.
 
 =head1 SYNOPSIS
 
@@ -77,11 +78,6 @@ polar coordinate graph drawing.
 Draw a concentric ring constrained, random angle, polar coordinate 
 graph.
 
-=head1 ABSTRACT
-
-Concentric ring constrained, random angle, polar coordinate graph 
-drawing.
-
 =head1 PUBLIC METHODS
 
 =over 4
@@ -91,13 +87,33 @@ drawing.
 The arguments that must be provided are described in the 
 C<Graph::Drawing::Surface> and C<Graph::Drawing::Vertex> documentation.
 
+With the following exceptions:
+
+=over 4
+
+=item surface_size $PIXELS
+
+This is an alias to the C<Graph::Drawing::Surface> C<size> attribute.
+
+=item vertex_size $PIXELS
+
+This is an alias to the C<Graph::Drawing::Vertex> C<size> attribute.
+
+=item vertex_labels 0 | 1
+
+This is an alias to the C<Graph::Drawing::Vertex> C<show_label> 
+attribute, and is used by the parent initialization routine to set 
+all the vertices to this value.
+
+=back
+
 =back
 
 =head1 PRIVATE METHODS
 
 =over 4
 
-=item get_coordinate $NAME
+=item get_coordinate $VERTEX
 
 Compute and return the coordinate of a C<Graph::Drawing::Vertex> 
 object.

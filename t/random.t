@@ -7,6 +7,5 @@ my $g;
 eval {
     $g = Graph::Drawing::Random->new();
 };
-use Data::Dumper;warn Dumper($g);
 isa_ok $g, 'Graph::Drawing::Random';
 ok !$@, 'created with no arguments';

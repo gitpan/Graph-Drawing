@@ -1,5 +1,5 @@
 package Graph::Drawing::Surface;
-use vars qw($VERSION); $VERSION = '0.06';
+use vars qw($VERSION); $VERSION = '0.06.1';
 use strict;
 use Carp;
 use GD;  # XXX Ugh.  Refactoring, please.
@@ -325,10 +325,6 @@ documentation for usage.
 
 This module is a two dimensional graph topology landscape used by the
 parent to plot vertices, edges, axes and labels.
-
-=head1 ABSTRACT
-
-2D graph topology landscape.
 
 =head1 PUBLIC METHODS
 
