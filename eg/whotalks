@@ -1,0 +1,18 @@
+#!/usr/bin/perl -w
+use strict;
+use Graph::Drawing::Random;
+
+my $g = Graph::Drawing::Random->new(
+    type         => 'GD',
+    format       => 'png',
+    surface_name => $0,
+    vertex_size  => 6,
+    data => {
+        john   => { paul => 30, },
+        paul   => { john => 30, george => 20, ringo => 10, },
+        george => { john => 10, paul   => 10, ringo => 10, },
+        ringo  => {},
+    }
+);
+
+$g->surface->pic_output;

@@ -1,0 +1,5 @@
+Revision history for Graph::Drawing
+
+0.01  Tue Jun 17 11:08:36 2003
+    - original version; created by h2xs 1.22 with options
+        -A -X -n Graph::Drawing

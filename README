@@ -1,0 +1,30 @@
+Graph/Drawing
+=============
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+Carp
+
+Test::More
+
+Graph::Weighted
+
+HISTORY
+
+See the Changes file in this distribution.
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2003 Gene Boggs
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
