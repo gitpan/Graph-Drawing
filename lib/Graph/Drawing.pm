@@ -1,6 +1,6 @@
 package Graph::Drawing;
 use strict;
-use vars qw($VERSION); $VERSION = '0.01.1';
+use vars qw($VERSION); $VERSION = '0.01.2';
 use Carp;
 use base qw(Graph::Weighted);
 
@@ -107,7 +107,7 @@ Please see the C<Graph::Drawing::*> subclass C<SYNOPSIS> sections for
 usage descriptions.
 
 Please see the distribution eg/ directory for a working, if only 
-feeble, working example.
+feeble, example.
 
 * This entire distribution is currently under heavy development.
 Nearly every method, argument and bit of documentation currently have 

@@ -4,10 +4,10 @@ Makefile.PL
 README
 eg/whotalks
 eg/whotalks.png
-lib/Drawing.pm
-lib/Drawing/Random.pm
-lib/Drawing/Surface.pm
-lib/Drawing/Vertex.pm
+lib/Graph/Drawing.pm
+lib/Graph/Drawing/Random.pm
+lib/Graph/Drawing/Surface.pm
+lib/Graph/Drawing/Vertex.pm
 t/drawing.t
 t/random.t
 t/surface.t
