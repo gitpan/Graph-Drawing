@@ -1,5 +1,5 @@
 package Graph::Drawing::Base;
-use vars qw($VERSION); $VERSION = '0.3';
+use vars qw($VERSION); $VERSION = '0.4';
 use strict;
 use Carp;
 use base qw(Graph::Weighted);
@@ -18,22 +18,24 @@ sub new {
     return $self;
 }
 
-sub _init {
+sub _init {  # {{{
     my ($self, %args) = @_;
-$self->_debug('entering Graph::Drawing::_init');
+$self->_debug('entering Drawing::_init');
 
-$self->_debug('create a surface');
-    # Set the surface width to twice the graph's maximum weight if a
-    # size is not specified.
+    # Set the surface width to twice the graph's maximum weight if 
+    # a dataset is not specified.
     $args{surface_size} ||= $self->data && keys %{ $self->data }
         ? 2 * $self->max_weight : 0;
-    $self->{surface} = $self->new_surface(%args)
-        if defined $args{surface_size};
+
+    $self->{surface} = $self->surface(%args);
 
     # Add a new vertex to the drawing for each of the graph vertices.
 $self->_debug('add new vertices');
-    $self->new_vertex(name => $_, size => $args{vertex_size})
-        for $self->vertices;
+    $self->vertex(
+        debug       => $args{debug},
+        name        => $_,
+        vertex_size => $args{vertex_size},
+    ) for $self->vertices;
 
     # Plot the vertices and edges.
 $self->_debug('plot the vertices and edges');
@@ -43,42 +45,37 @@ $self->_debug('plot the vertices and edges');
             for $self->successors($v);
     }
 
-$self->_debug('exiting Graph::Drawing::_init');
-}
-
-sub new_surface {
-    my ($self, %args) = @_;
-    return Graph::Drawing::Surface->new(
-        type   => $args{type},
-        name   => $args{surface_name},
-        format => $args{format},
-        size   => $args{surface_size},
-        grade  => $args{grade},
-    );
-}
+$self->_debug('exiting Drawing::_init');
+}  # }}}
 
 sub surface {
-    return shift->{surface};
-}
-
-sub new_vertex {
-    my ($self, %args) = @_;
-
-    my $v = Graph::Drawing::Vertex->new(
-        name  => $args{name},
-        size  => $args{size},
-        graph => $self,
-    );
-
-    # Make the object an attribute of the graph vertex.
-    $self->set_attribute('obj', $args{name}, $v);
-
-    return $v;
+    my $self = shift;
+    if (@_) {
+        return Graph::Drawing::Surface->new(@_);
+    }
+    else {
+        return $self->{surface};
+    }
 }
 
 sub vertex {
-    my ($self, $vertex) = @_;
-    return $self->get_attribute('obj', $vertex);
+    my $self = shift;
+    my $v;
+
+    if (@_ > 1) {
+        my %args = @_;
+
+        $v = Graph::Drawing::Vertex->new(%args, graph => $self);
+
+        # Make the object an attribute of the graph vertex.
+        $self->set_attribute('obj', $args{name}, $v);
+    }
+    else {
+        $v = shift;
+        $v = $self->get_attribute('obj', $v);
+    }
+
+    return $v;
 }
 
 1;
@@ -87,7 +84,7 @@ __END__
 
 =head1 NAME
 
-Graph::Drawing - Base class for graph drawing functionality
+Graph::Drawing::Base - Base class for graph drawing functionality
 
 =head1 SYNOPSIS
 
@@ -116,8 +113,7 @@ object.
 Please see the C<Graph::Drawing::*> subclass C<SYNOPSIS> sections for 
 usage descriptions.
 
-Please see the distribution eg/ directory for a working, if only 
-feeble, example.
+Please see the distribution eg/ directory for working examples.
 
 =head1 ABSTRACT
 
@@ -127,65 +123,27 @@ Base class for graph drawing functionality.
 
 =over 4
 
-=item new_surface %ARGUMENTS
+=item surface [%ARGUMENTS]
 
-Create and return a new surface object.
+Return a surface object.
 
-=over 4
+If the method is passed a list of arguments a new 
+C<Graph::Drawing::Surface> object is created.  If no arguments are 
+given, the object's surface is returned.
 
-=item name $STRING
+The list of arguments for a new surface object are detailed in the 
+C<Graph::Drawing::Surface> documentation.
 
-The file name (without the extension like ".png") to use when saving 
-the image.  This attribute is prepended to the C<format> attribute to 
-make the image filename.
+=item vertex $NAME | %ARGUMENTS
 
-=item format $STRING
+Return a vertex object.
 
-The graphic file format to use when saving.  Currently, this is only 
-the C<PNG> format.
+If the method is passed a list of arguments a new 
+C<Graph::Drawing::Vertex> object is created.  If only one argument is 
+given, the existing vertex with that name is returned.
 
-This object attribute is appended (automatically) to the C<name> 
-attribute, as the "file extension", to make the image filename.
-
-=item type $MODULE
-
-Specify the graphics module to use.  Currently, this is only C<GD>.
-(C<Imager> is next!)
-
-=item surface_size $PIXELS
-
-The size of the (square) surface, in pixels.
-
-=item grade $PIXELS
-
-The gradation interval.
-
-=back
-
-=item surface
-
-Accessor to the C<Graph::Drawing::Surface> object.
-
-=item new_vertex %ARGUMENTS
-
-Create and return a new vertex object.
-
-=over 4
-
-=item name $IDENTIFIER
-
-The name to use to identify the vertex.  Currently, this must be
-unique among the rest of the vertices.
-
-=item vertex_size $PIXELS
-
-The size of the vertex diameter, in pixels.
-
-=back
-
-=item vertex $NAME
-
-Return the C<Graph::Drawing::Vertex> object, given the vertex name.
+The list of arguments for a new vertex object are detailed in the 
+C<Graph::Drawing::Vertex> documentation.
 
 =back
 

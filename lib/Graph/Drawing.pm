@@ -1,6 +1,6 @@
 package Graph::Drawing;
 # This is the distribution version:
-use vars qw($VERSION); $VERSION = '0.4';
+use vars qw($VERSION); $VERSION = '0.05';
 use base qw(Graph::Drawing::Base);
 use Graph::Drawing::Surface;
 use Graph::Drawing::Vertex;
@@ -40,6 +40,12 @@ C<SYNOPSIS> sections for usage descriptions.
 
 Please see the distribution eg/ directory for a working, if only 
 feeble, example.
+
+* Ack!  I accidentally uploaded a version typo.  Instead of the
+correct, '0.04', I did '0.4'.  Now my embryonic distribution is at 
+four major releases beyond reality, and no longer reflects development
+progress.  CPAN does not let authors just "roll back" a distribution.
+If I drank, I would drink heavily, now.
 
 =head1 ABSTRACT
 

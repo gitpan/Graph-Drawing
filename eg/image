@@ -1,0 +1,45 @@
+#!/usr/bin/perl -w
+use strict;
+
+# NOTE: This is not meant to display a meaningful chart.  It is meant
+# to show the fact that you can give Graph::Drawing an existing image
+# to use for the surface.
+
+use GD::Graph::radar;
+my $dim = 400;
+my $r = GD::Graph::radar->new($dim, $dim);
+my $i = $r->plot([
+    [qw( a   b c   d   e   f   g h   i )],
+    [qw( 3.2 9 4.4 3.9 4.1 4.3 7 6.1 5 )]
+]);
+
+my $f = "$0.gif";
+#open F, ">$f" or die "Can't open $f - $!\n";
+#binmode F;
+#print F $i->gif;
+#close F;
+#__END__
+
+use Graph::Drawing::Random;
+my $g = Graph::Drawing::Random->new(
+#    debug => 1,
+    type         => 'GD',
+    format       => 'gif',
+    image        => $i,
+    surface_size => $dim,
+    grade        => 10,
+    layout       => 'circular',#'rectangular'
+    show_grid    => 1,
+    grid_labels  => 1,
+    show_axes    => 1,
+    vertex_size  => 6,
+    data         => {
+        john   => { paul => 30, },
+        paul   => { john => 30, george => 20, ringo => 10, },
+        george => { john => 10, paul   => 10, ringo => 10, },
+        ringo  => {},
+        gene   => {},
+    }
+);
+
+$g->surface->write_image($f);

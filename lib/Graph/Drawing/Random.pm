@@ -1,5 +1,5 @@
 package Graph::Drawing::Random;
-use vars qw($VERSION); $VERSION = '0.02.2';
+use vars qw($VERSION); $VERSION = '0.03';
 use strict;
 use Carp;
 use base qw(Graph::Drawing);
@@ -32,19 +32,18 @@ __END__
 =head1 NAME
 
 Graph::Drawing::Random - Concentric ring constrained, random angle, 
-polar coordinate system graph drawing.
+polar coordinate graph drawing.
 
 =head1 SYNOPSIS
 
   use Graph::Drawing::Random;
 
   my $g = Graph::Drawing::Random->new(
-  #    debug => 1,
       type         => 'GD',
       format       => 'png',
-      surface_name => 'foo',
-  #    surface_size => 300,  # Can be undefined in the new() call.
-  #    grade        => 20,
+      name         => 'The_Beatles',
+      surface_size => 300,
+      grade        => 20,
       vertex_size  => 6,
       data => {
           john   => { paul => 30, },
@@ -66,18 +65,25 @@ description of the available common methods and their arguments.
 
 =head1 ABSTRACT
 
-Concentric ring constrained, random angle, polar coordinate system 
-graph drawing.
+Concentric ring constrained, random angle, polar coordinate graph 
+drawing.
 
 =head1 PUBLIC METHODS
 
-None.
+=over 4
+
+=item new %ARGUMENTS
+
+The arguments that must be provided are described in the documentation
+in C<Graph::Drawing::Base>.
+
+=back
 
 =head1 PRIVATE METHODS
 
 =over 4
 
-=item get_coordinate
+=item get_coordinate $NAME
 
 Return the vertex coordinate.
 

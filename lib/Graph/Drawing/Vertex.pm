@@ -1,17 +1,22 @@
 package Graph::Drawing::Vertex;
-use vars qw($VERSION); $VERSION = '0.01.2';
+use vars qw($VERSION); $VERSION = '0.02';
 use strict;
 use Carp;
+
+sub _debug {
+    print @_, "\n" if shift->{debug};
+}
 
 sub new {
     my $class = shift;
     my $proto = ref ($class) || $class;
     my %args = @_;
     my $self = {
-        name   => $args{name}   || '',
-        size   => $args{size}   || 0,
-        weight => $args{weight} || 0,
-        graph  => $args{graph}  || undef,
+        debug       => $args{debug}       || 0,
+        name        => $args{name}        || '',
+        vertex_size => $args{vertex_size} || 0,
+        weight      => $args{weight}      || 0,
+        graph       => $args{graph}       || undef,
     };
     bless $self, $class;
     $self->_init(%args) if $args{graph};
@@ -20,10 +25,12 @@ sub new {
 
 sub _init {
     my $self = shift;
+$self->_debug('entering Vertex::_init');
     # This goofy looking method call with $self as an argument is a
     # "hook" into the derived subclass of the graph class.
     ($self->{x}, $self->{y}, $self->{z}) =
         $self->{graph}->get_coordinate($self);
+$self->_debug('exiting Vertex::_init');
 }
 
 sub name {
@@ -34,8 +41,8 @@ sub name {
 
 sub size {
     my $self = shift;
-    $self->{size} = shift if @_;
-    return $self->{size};
+    $self->{vertex_size} = shift if @_;
+    return $self->{vertex_size};
 }
 
 sub weight {
@@ -69,31 +76,71 @@ Graph::Drawing::Vertex - A vertex object
 
 =head1 SYNOPSIS
 
-This module is called automatically by the parent and does not need 
-to be called directly.
+The methods in this module are called automatically by the parent and 
+do not need to be called explicitly.
 
 =head1 DESCRIPTION
 
-This module represents a vertex object, that is used by the parent in 
-plotting.
+This module represents a vertex object that is used by other 
+C<Graph::Drawing> modules.
 
 =head1 ABSTRACT
 
-A vertex object used by the C<Graph::Drawing> module.
+A vertex object.
 
 =head1 PUBLIC METHODS
 
-None that need to be called explicitly.
+These methods are all called automatically by the other 
+C<Graph::Drawing> modules, and should not need to be called explicitly.
+
+=over 4
+
+=item new %ARGUMENTS
+
+=over 4
+
+=item name $STRING
+
+The name to use to identify the vertex.  Currently, this must be
+unique among the rest of the vertices.
+
+This object attribute is set automatically, based on the keys of the
+data attribute.  It should not be set explicitly.
+
+=item vertex_size $PIXELS
+
+The size of the vertex diameter, in pixels.
+
+=back
+
+=item x, y, z [$NUMBER]
+
+Set/get accessor to the vertex coordinates.
+
+=item name [$STRING]
+
+Set/get accessor to the vertex's C<name> attribute.
+
+=item size [$PIXELS]
+
+Set/get accessor to the vertex's C<size> attribute.
+
+=item weight
+
+Accessor to return the vertex's C<weight> attribute (that is retrieved
+with the C<Graph::Weighted::vertex_weight> method).
+
+=back
 
 =head1 PRIVATE METHODS
 
-new
-x
-y
-z
-name
-size
-weight
+=over 4
+
+=item _debug @STUFF
+
+Print the contents of the argument array with a newline appended.
+
+=back
 
 =head1 SEE ALSO
 

@@ -2,8 +2,9 @@ Changes
 MANIFEST
 Makefile.PL
 README
+eg/image
+eg/tester
 eg/whotalks
-eg/whotalks.png
 lib/Graph/Drawing.pm
 lib/Graph/Drawing/Base.pm
 lib/Graph/Drawing/Random.pm

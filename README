@@ -16,6 +16,8 @@ Carp
 
 Test::More
 
+GD
+
 Graph::Weighted
 
 HISTORY

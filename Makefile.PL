@@ -7,6 +7,7 @@ WriteMakefile(
         'Carp' => 0,
         'Test::More' => 0,
         'Graph::Weighted' => 0,
+        'GD' => 0,  # ugh
     },
     ($] >= 5.005
         ? (ABSTRACT_FROM => 'lib/Graph/Drawing.pm',

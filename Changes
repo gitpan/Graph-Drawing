@@ -4,13 +4,13 @@ Revision history for Graph::Drawing
     - original version; created by h2xs 1.22 with options
         -A -X -n Graph::Drawing
 
-0.01.1  Fri Jul 4
+0.01.1  Fri Jul 4 2003
     - Fixed documentation in every module.
 
-0.01.2  Fri Jul 4
+0.01.2  Fri Jul 4 2003
     - Ack!  Forgot Graph/ under lib/.  Oops!
 
-0.02  Fri Jul 4
+0.02  Fri Jul 4 2003
     - Added _debug calls here and there.
     - Added the size attribute accessor to Surface.pm.
     - Changed the G::D::Random::get_coordinate method to use the
@@ -20,7 +20,7 @@ Revision history for Graph::Drawing
       and in eg/whotalks.
     - Fixed and enhanced the Drawing.pm and Surface.pm documentation.
 
-0.03  Fri Jul 4
+0.03  Fri Jul 4 2003
     - Moved the base class functionality to *::Base.
     - Renamed the "pic_output" method to "draw", in Surface.pm.
     - Enhanced the documentation of Vertex.pm slightly.
@@ -29,7 +29,7 @@ Revision history for Graph::Drawing
       called "grade".
     - Updated the Base.pm documentation accordingly.
 
-0.04  
+0.4  Sat Jul 6 2003
     - Ack!  What was I thinking?  Renamed the "draw" method to
       "write_image" in Surface.pm.
     - Made the surface_name attribute optional and allowed
@@ -38,3 +38,22 @@ Revision history for Graph::Drawing
     - Made the Surface::_init method check $self->data before calling
       the max_weight method.
     - Made sure all the feeble tests ran correctly...
+
+0.05  Wed Jul 9 2003
+    - Holy crap.  I accidentally uploaded $VERSION = '0.4'; instead of
+      '0.04'. shit shit shit shit shit shit shit shit shit shit shit
+    - Added documentation about why the distribution version made an
+      enormous leap beyond reality.
+    - Added functionality for circular and rectangular layout, grid
+      and axes flag attributes to Surface.pm.
+    - Remembered to add GD to the PM_PREREQS in the Makefile.PL.
+    - Oof.  Didn't name G::D::Base right in the POD.
+    - Added a more automated testing of a larger dataset graph to eg/.
+    - Implemented the functionality for accepting an image object to
+      use for the surface.
+    - Added _debug methods to the Surface and Vertex modules.
+    - Added POD to the Vertex, Surface and Random modules to describe
+      (rather than just list) their methods.
+    - Refactored code, all over.  Yes.  This is the most meaningless
+      comment a programmer can make.  Fortunately, it's my embryonic
+      distribution...

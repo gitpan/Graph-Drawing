@@ -1,0 +1,25 @@
+#!/usr/bin/perl -w
+use strict;
+use Graph::Drawing::Random;
+
+my $data;
+
+for my $i ('a' .. 'z') {
+    $data->{$i} = {
+        map { $_ => int rand (9) + 1 }
+            grep { $_ ne $i } 'a' .. 'z' };
+}
+
+my $g = Graph::Drawing::Random->new(
+#    debug => 1,  # This is always available to subclasses.
+    type         => 'GD',
+    format       => 'png',
+    surface_size => 800,
+    layout       => 'rectangular',#'circular',
+    show_grid    => 1,
+    grade        => 20,
+    vertex_size  => 6,
+    data         => $data,
+);
+
+$g->surface->write_image("$0.png");
