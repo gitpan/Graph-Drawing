@@ -57,3 +57,12 @@ Revision history for Graph::Drawing
     - Refactored code, all over.  Yes.  This is the most meaningless
       comment a programmer can make.  Fortunately, it's my embryonic
       distribution...
+
+0.06  Thu Jul 10 2003
+    - WHEW. search.cpan.org and the CPAN shell use upload dates and
+      not version numbers to determine what is "latest" - as it
+      should be.  Yay!
+    - Fixed documentation in the Drawing, Base, Random, and Surface
+      modules.
+    - Fixed the use base line in Random to actually find the parent's
+      new().  Wtf didn't the previous way work on older perls?

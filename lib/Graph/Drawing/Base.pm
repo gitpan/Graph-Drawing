@@ -1,5 +1,5 @@
 package Graph::Drawing::Base;
-use vars qw($VERSION); $VERSION = '0.4';
+use vars qw($VERSION); $VERSION = '0.05';
 use strict;
 use Carp;
 use base qw(Graph::Weighted);
@@ -110,7 +110,7 @@ subclass of C<Graph::Directed>.  Thus, every appropriate method
 available in those modules, is also available to a C<Graph::Drawing>
 object.
 
-Please see the C<Graph::Drawing::*> subclass C<SYNOPSIS> sections for 
+Please see the C<Graph::Drawing> subclass C<SYNOPSIS> sections for 
 usage descriptions.
 
 Please see the distribution eg/ directory for working examples.

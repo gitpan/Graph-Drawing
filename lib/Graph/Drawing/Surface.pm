@@ -1,5 +1,5 @@
 package Graph::Drawing::Surface;
-use vars qw($VERSION); $VERSION = '0.04';
+use vars qw($VERSION); $VERSION = '0.05';
 use strict;
 use Carp;
 
@@ -294,8 +294,8 @@ Graph::Drawing::Surface - 2D graph topology landscape
 This module does not need to be invoked explicitly, but rather, is 
 called automatically by the parent.
 
-Please see the C<Graph::Drawing> subclass documentation for proper 
-usage.
+Please see the C<Graph::Drawing> subclass C<SYNOPSIS> section 
+documentation for usage.
 
 =head1 DESCRIPTION
 
@@ -318,8 +318,8 @@ Create and return a new surface object.
 
 =item image $OBJECT
 
-An existing image object (currently C<GD> only, that is, any GD::Image 
-object), on which to draw the graph, may be provided.
+An existing image object (currently a C<GD::Image> object only), on 
+which to draw the graph, may be provided.
 
 Please see the eg/image program, for an example of this in action.
 

@@ -1,8 +1,8 @@
 package Graph::Drawing::Random;
-use vars qw($VERSION); $VERSION = '0.03';
+use vars qw($VERSION); $VERSION = '0.04';
 use strict;
 use Carp;
-use base qw(Graph::Drawing);
+use base qw(Graph::Drawing::Base);
 
 sub get_coordinate {
     my ($self, $vertex) = @_;
@@ -57,11 +57,8 @@ polar coordinate graph drawing.
 
 =head1 DESCRIPTION
 
-Compute and return the concentric ring constrained, random angle 
-polar coordinate of a C<Graph::Drawing::Vertex> object.
-
-Please see the C<Graph::Drawing::Base> documentation for a 
-description of the available common methods and their arguments.
+Draw a concentric ring constrained, random angle, polar coordinate 
+graph.
 
 =head1 ABSTRACT
 
@@ -74,8 +71,8 @@ drawing.
 
 =item new %ARGUMENTS
 
-The arguments that must be provided are described in the documentation
-in C<Graph::Drawing::Base>.
+The arguments that must be provided are described in the 
+C<Graph::Drawing::Surface> and C<Graph::Drawing::Vertex> documentation.
 
 =back
 
@@ -85,7 +82,8 @@ in C<Graph::Drawing::Base>.
 
 =item get_coordinate $NAME
 
-Return the vertex coordinate.
+Compute and return the coordinate of a C<Graph::Drawing::Vertex> 
+object.
 
 This method is used automatically for the vertex plotting that is 
 done in the parent module.
