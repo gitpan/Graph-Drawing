@@ -1,9 +1,8 @@
 package Graph::Drawing::Surface;
-#
-# Graph topology landscape
-#
 use strict;
+use vars qw($VERSION); $VERSION = '0.01.1';
 use Carp;
+
 use GD;  # XXX Ugh.  Refactoring, please.
 
 use constant PI     => 2 * atan2 (1, 0);  # The number.
@@ -201,14 +200,21 @@ __END__
 
 =head1 NAME
 
-Graph::Drawing::Vertex - A vertex object used by the 
-C<Graph::Drawing> module.
+Graph::Drawing::Surface - 2D Graph topology landscape
 
 =head1 SYNOPSIS
 
+This module is called automatically by the parent and does not need 
+to be called directly.
+
 =head1 DESCRIPTION
 
+This module is a two dimensional graph topology landscape used by the
+parent to plot vertices, edges, axes and labels.
+
 =head1 ABSTRACT
+
+2D Graph topology landscape used by the C<Graph::Drawing> module.
 
 =head1 PUBLIC METHODS
 
@@ -233,9 +239,9 @@ draw_arrowhead
 
 =head1 SEE ALSO
 
-C<Graph::Drawing>
+L<Graph::Drawing>
 
-C<Graph::Drawing::Vertex>
+L<Graph::Drawing::Vertex>
 
 =head1 TO DO
 

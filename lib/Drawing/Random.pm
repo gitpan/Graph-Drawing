@@ -1,5 +1,6 @@
 package Graph::Drawing::Random;
 use strict;
+use vars qw($VERSION); $VERSION = '0.01.1';
 use Carp;
 use base qw(Graph::Drawing);
 
@@ -81,11 +82,11 @@ done in the parent module.
 
 =head1 SEE ALSO
 
-C<Graph::Drawing>
+L<Graph::Drawing>
 
-C<Graph::Drawing::Vertex>
+L<Graph::Drawing::Vertex>
 
-C<Graph::Drawing::Surface>
+L<Graph::Drawing::Surface>
 
 =head1 TO DO
 

@@ -1,8 +1,9 @@
 package Graph::Drawing;
 use strict;
+use vars qw($VERSION); $VERSION = '0.01.1';
 use Carp;
-use vars qw($VERSION); $VERSION = '0.01';
 use base qw(Graph::Weighted);
+
 use Graph::Drawing::Surface;
 use Graph::Drawing::Vertex;
 
@@ -192,9 +193,15 @@ C<Graph::Drawing> object.
 
 =head1 SEE ALSO
 
-C<Graph::Weighted>
+L<Graph::Base>
 
-C<Graph::Base>
+L<Graph::Weighted>
+
+L<Graph::Drawing::Surface>
+
+L<Graph::Drawing::Vertex>
+
+L<Graph::Drawing::Random>
 
 =head1 TO DO
 

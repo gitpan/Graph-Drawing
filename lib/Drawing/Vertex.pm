@@ -1,5 +1,6 @@
 package Graph::Drawing::Vertex;
 use strict;
+use vars qw($VERSION); $VERSION = '0.01.1';
 use Carp;
 
 sub new {
@@ -69,14 +70,21 @@ __END__
 
 =head1 NAME
 
-Graph::Drawing::Vertex - A vertex object used by the 
-C<Graph::Drawing> module.
+Graph::Drawing::Vertex - A vertex object
 
 =head1 SYNOPSIS
 
+This module is called automatically by the parent and does not need 
+to be called directly.
+
 =head1 DESCRIPTION
 
+This module represents a vertex object, that is used by the
+parent in plotting.
+
 =head1 ABSTRACT
+
+A vertex object used by the C<Graph::Drawing> module.
 
 =head1 PUBLIC METHODS
 
