@@ -7,7 +7,8 @@ my $g = Graph::Drawing::Random->new(
     type         => 'GD',
     format       => 'png',
     surface_name => $0,
-#    surface_size => 300,  # Defaults to half the max weight if not specified.
+    surface_size => 300,  # Defaults to half the max weight if not specified.
+    grade        => 20,
     vertex_size  => 6,
     data => {
         john   => { paul => 30, },
@@ -17,4 +18,4 @@ my $g = Graph::Drawing::Random->new(
     }
 );
 
-$g->surface->pic_output;
+$g->surface->draw;

@@ -1,6 +1,6 @@
 package Graph::Drawing::Random;
+use vars qw($VERSION); $VERSION = '0.02.1';
 use strict;
-use vars qw($VERSION); $VERSION = '0.02';
 use Carp;
 use base qw(Graph::Drawing);
 
@@ -19,8 +19,8 @@ $self->_debug("entering get_coordinate with $vertex");
     my $y = $weight * sin $angle;
     my $z = 0;
 
-#    warn sprintf "%s: w=%d, m=%d, a=%.2f => [%.2f, %.2f]\n",
-#        $v, $weight, $max, $angle, $x, $y;
+#    warn sprintf "%s: w=%d, m=%d, a=%.2f => [%.2f, %.2f, %.2f]\n",
+#        $v, $weight, $max, $angle, $x, $y, $z;
 
 $self->_debug('exit get_coordinate');
     return $x + $max, $y + $max, $z + $max;
@@ -31,8 +31,8 @@ __END__
 
 =head1 NAME
 
-Graph::Drawing::Random - Polar grid constrained, random distribution 
-graph drawing 
+Graph::Drawing::Random - Concentric ring constrained, random angle, 
+polar coordinate system graph drawing.
 
 =head1 SYNOPSIS
 
@@ -43,7 +43,7 @@ graph drawing
       type         => 'GD',
       format       => 'png',
       surface_name => 'foo',
-  #    surface_size => 300,
+  #    surface_size => 300,  # Can be undefined in the new() call.
       vertex_size  => 6,
       data => {
           john   => { paul => 30, },
@@ -53,21 +53,20 @@ graph drawing
       }
   );
 
-  $g->surface->pic_output;
+  $g->surface->draw;
 
 =head1 DESCRIPTION
 
-This entire distribution is currently under heavy development.
-Nearly every method, argument and bit of documentation currently have 
-restrictions, caveats and deficiencies that will change as 
-development progresses.
+Compute and return the concentric ring constrained, random angle 
+polar coordinate of a C<Graph::Drawing::Vertex> object.
 
-Please see the C<Graph::Drawing> documentation for a description of 
-the available methods and their arguments.
+Please see the C<Graph::Drawing::Base> documentation for a 
+description of the available common methods and their arguments.
 
 =head1 ABSTRACT
 
-Polar grid constrained, random distribution graph drawing.
+Concentric ring constrained, random angle, polar coordinate system 
+graph drawing.
 
 =head1 PUBLIC METHODS
 
@@ -84,11 +83,15 @@ Return the vertex coordinate.
 This method is used automatically for the vertex plotting that is 
 done in the parent module.
 
+This method takes a C<Graph::Drawing::Vertex> object as an argument.
+
 =back
 
 =head1 SEE ALSO
 
 L<Graph::Drawing>
+
+L<Graph::Drawing::Base>
 
 L<Graph::Drawing::Vertex>
 

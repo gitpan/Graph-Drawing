@@ -1,30 +1,27 @@
 package Graph::Drawing::Vertex;
+use vars qw($VERSION); $VERSION = '0.01.2';
 use strict;
-use vars qw($VERSION); $VERSION = '0.01.1';
 use Carp;
 
 sub new {
     my $class = shift;
     my $proto = ref ($class) || $class;
-
     my %args = @_;
-
     my $self = {
         name   => $args{name}   || '',
         size   => $args{size}   || 0,
         weight => $args{weight} || 0,
         graph  => $args{graph}  || undef,
     };
-
     bless $self, $class;
-
     $self->_init(%args) if $args{graph};
-
     return $self;
 }
 
 sub _init {
     my $self = shift;
+    # This goofy looking method call with $self as an argument is a
+    # "hook" into the derived subclass of the graph class.
     ($self->{x}, $self->{y}, $self->{z}) =
         $self->{graph}->get_coordinate($self);
 }
@@ -33,24 +30,6 @@ sub name {
     my $self = shift;
     $self->{name} = shift if @_;
     return $self->{name};
-}
-
-sub x {
-    my $self = shift;
-    $self->{x} = shift if @_;
-    return $self->{x};
-}
-
-sub y {
-    my $self = shift;
-    $self->{y} = shift if @_;
-    return $self->{y};
-}
-
-sub z {
-    my $self = shift;
-    $self->{z} = shift if @_;
-    return $self->{z};
 }
 
 sub size {
@@ -62,6 +41,22 @@ sub size {
 sub weight {
     my $self = shift;
     return $self->{graph}->vertex_weight($self->{name});
+}
+
+sub x {
+    my $self = shift;
+    $self->{x} = shift if @_;
+    return $self->{x};
+}
+sub y {
+    my $self = shift;
+    $self->{y} = shift if @_;
+    return $self->{y};
+}
+sub z {
+    my $self = shift;
+    $self->{z} = shift if @_;
+    return $self->{z};
 }
 
 1;
@@ -79,8 +74,8 @@ to be called directly.
 
 =head1 DESCRIPTION
 
-This module represents a vertex object, that is used by the
-parent in plotting.
+This module represents a vertex object, that is used by the parent in 
+plotting.
 
 =head1 ABSTRACT
 
@@ -103,6 +98,8 @@ weight
 =head1 SEE ALSO
 
 C<Graph::Drawing>
+
+C<Graph::Drawing::Base>
 
 C<Graph::Drawing::Surface>
 

@@ -1,33 +1,27 @@
 package Graph::Drawing::Surface;
-use strict;
 use vars qw($VERSION); $VERSION = '0.02';
+use strict;
 use Carp;
 
 use GD;  # XXX Ugh.  Refactoring, please.
 
-use constant PI     => 2 * atan2 (1, 0);  # The number.
-use constant FLARE  => 0.9 * PI;          # The angle of the arrowhead.
-use constant SCALE  => 0.07;              # Scaling factor for vector magnitude.
-use constant FACTOR => 10;                # "Registration mark" factor.
+use constant PI    => 2 * atan2 (1, 0);  # The number.
+use constant FLARE => 0.9 * PI;          # The angle of the arrowhead.
 
 sub new {
     my $proto = shift;
     my $class = ref $proto || $proto;
-
     my %args = @_;
-
     my $self = {
         size   => $args{size},
         name   => $args{name},
         format => $args{format},
         image  => $args{image}  || undef,
         colors => $args{colors} || {},
+        grade  => $args{grade}  || 10,
     };
-
     bless $self, $class;
-
     $self->_init(%args);
-
     return $self;
 }
 
@@ -57,7 +51,7 @@ sub _init {
     $self->{image}->line($half, 1, $half, $half, $grid);
 
     # Put registration marks on the picture.
-    for (my $i = FACTOR; $i < $half; $i += FACTOR) {
+    for (my $i = $self->{grade}; $i < $half; $i += $self->{grade}) {
         $self->{image}->arc(
             $half,  $half,
             2 * $i, 2 * $i,
@@ -86,12 +80,13 @@ sub _init {
     $self->{image}->fill( $end, 0,    $grid );
     $self->{image}->fill( $end, $end, $grid );
 
-    $self->{image}->string(
-        gdTinyFont,
-        FACTOR / 2, FACTOR / 2,
-        'Total: '. $self->{size},
-        $self->{colors}{border}
-    );
+# XXX Why do we need this, anymore?
+#    $self->{image}->string(
+#        gdTinyFont,
+#        $self->{grade} / 2, $self->{grade} / 2,
+#        'Total: '. $self->{size},
+#        $self->{colors}{border}
+#    );
 }
 
 sub image {
@@ -112,7 +107,7 @@ sub size {
     return $self->{size};
 }
 
-sub pic_output {
+sub draw {
     my $self = shift;
 
     my $filename = "$self->{name}.$self->{format}";
@@ -177,7 +172,7 @@ sub draw_arrowhead {
     my $dx = $head->x - $tail->x;
     my $dy = $head->y - $tail->y;
 
-    my $len = sqrt (($dx * $dx) + ($dy * $dy));
+    my $dist = sqrt (($dx * $dx) + ($dy * $dy));
 
     # Calculate the angle of the vector in radians.
     my $angle = atan2 ($dy, $dx);
@@ -188,8 +183,8 @@ sub draw_arrowhead {
 
 #    for($angle + FLARE, $angle - FLARE) {  # "full arrow"
     for($angle + FLARE, $angle + PI) {  # "half arrow"
-        my $unitx = cos ($_) * 2 * $tail->size;  #$len * SCALE;  # Use fixed or
-        my $unity = sin ($_) * 2 * $tail->size;  #$len * SCALE;  # proportional scaling.
+        my $unitx = cos ($_) * 2 * $tail->size;  # proportional scaling
+        my $unity = sin ($_) * 2 * $tail->size;
 
         $dx = $head->x + $unitx;
         $dy = $head->y + $unity;
@@ -231,7 +226,7 @@ of the surface.  Please see the documentation in the parent module,
 
 =over 4
 
-=item pic_output
+=item draw
 
 Print the (binary) contents of the object's image attribute to a file,
 who's name and format are defined by the concatination of the name 
@@ -251,6 +246,8 @@ draw_arrowhead
 =head1 SEE ALSO
 
 L<Graph::Drawing>
+
+L<Graph::Drawing::Base>
 
 L<Graph::Drawing::Vertex>
 
