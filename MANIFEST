@@ -1,19 +1,8 @@
 Changes
-eg/image
-eg/tester
-eg/whotalks
 lib/Graph/Drawing.pm
-lib/Graph/Drawing/Base.pm
-lib/Graph/Drawing/Random.pm
-lib/Graph/Drawing/Surface.pm
-lib/Graph/Drawing/Vertex.pm
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
-META.yml
 README
-t/base.t
 t/drawing.t
-t/random.t
-t/surface.t
-t/vertex.t
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -3,22 +3,7 @@ Graph/Drawing distribution
 
 INSTALLATION
 
-To install this module type the following:
-
-   perl Makefile.PL
-   make
-   make test
-   make install
-
-DEPENDENCIES
-
-Carp
-
-Test::More
-
-GD
-
-Graph::Weighted
+  perl -MCPAN -e'install Graph::Layout::Aesthetic'
 
 HISTORY
 
@@ -26,7 +11,7 @@ See the Changes file in this distribution.
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2003 Gene Boggs
+Copyright (C) 2004 Gene Boggs
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
